@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Invitation</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to bottom, #ffe4ec, #ffd6ea);
+      background-image: url('https://www.transparenttextures.com/patterns/hearts.png');
+      background-repeat: repeat;
+      background-size: contain;
+      text-align: center;
+      padding: 50px;
+      color: #d63384;
+    }
+    .card {
+      background-color: #fff0f5;
+      border: 2px solid #f8a5c2;
+      border-radius: 20px;
+      padding: 30px;
+      display: inline-block;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in;
+      position: relative;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: popIn 0.5s ease-in;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .yes-button {
+      background-color: #ff8fcf;
+      color: white;
+      animation: glow 1.5s infinite alternate, float 2s ease-in-out infinite;
+    }
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #ffb6d9; }
+      100% { box-shadow: 0 0 20px #ff69b4; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .no-button {
+      background-color: #c0c0c0;
+      color: #666;
+      font-style: italic;
+      opacity: 0.7;
+    }
+    .no-button:hover {
+      background-color: #a9a9a9;
+    }
+    #details {
+      display: none;
+      margin-top: 20px;
+    }
+    .big-yes {
+      font-size: 24px;
+      padding: 15px 40px;
+      background-color: #ff69b4;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #photo {
+      /* margin: 50px auto; */
+      /* position: absolute; */
+      /* top: -60px; */
+      /* left: 50%; */
+      /* transform: translateX(-50%); */
+    }
+    #photo img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #f8a5c2;
+      box-shadow: 0 0 10px #f8a5c2;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="./unme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="card">
+    <div id="photo">
+      <img src="./img.jpeg" alt="Cute Photo" />
+    </div>
+
+    <h1>Hi Nina Sayang 💌</h1>
+    <p>Mau pergi date bareng aku nggak? (｡•́‿•̀｡)💞</p>
+
+    <div id="choices">
+      <button class="yes-button" onclick="chooseYes()">Yes (๑˃̵ᴗ˂̵)و</button>
+      <button class="no-button" id="no-btn" onclick="chooseNo()">No (╥﹏╥)</button>
+    </div>
+
+    <div id="message"></div>
+    <div id="details">
+      <h2>Yeayyy (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</h2>
+      <p>📅: Friday, August 1st</p>
+      <p>📍: Dolce Cafe (❤️ ω ❤️)</p>
+      <p>⏰: 7:00 PM</p>
+    </div>
+  </div>
+
+  <script>
+  let noCount = 0;
+  let dodgeActive = true;
+  enableDodge();
+
+  function chooseYes() {
+    document.getElementById('message').innerHTML = '';
+    document.getElementById('choices').style.display = 'none';
+    document.getElementById('details').style.display = 'block';
+  }
+
+  function chooseNo() {
+    noCount++;
+    const message = document.getElementById('message');
+    const choices = document.getElementById('choices');
+
+    if (noCount === 1) {
+      message.innerHTML = '<p>Ih Marahhh ( ಠ_ಠ )! You sure ?</p>';
+      choices.innerHTML = `
+        <button class="yes-button" onclick="chooseYes()">Yes (๑˃̵ᴗ˂̵)و</button>
+        <button class="no-button" id="no-btn" onclick="chooseNo()">No (｡•́︿•̀｡)</button>
+      `;
+      enableDodge();
+      dodgeActive = true;
+    } else if (noCount > 2) {
+      message.innerHTML = '<p>Harus Mau!! (╬ Ò﹏Ó)</p>';
+      choices.innerHTML = `
+        <button class="big-yes" onclick="chooseYes()">YES (ง •̀_•́)ง</button>
+        
+      `;
+      dodgeActive = true;
+      enableDodge();
+      
+    }
+  }
+
+  function enableDodge() {
+    const noBtn = document.getElementById("no-btn");
+    noBtn.style.position = "relative";
+
+    noBtn.addEventListener("mouseover", () => {
+      if (!dodgeActive) return;
+
+      const offsetX = Math.floor(Math.random() * 200) - 100;
+      const offsetY = Math.floor(Math.random() * 200) - 100;
+
+      noBtn.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+  }
+</script>
+</body>
+</html>
